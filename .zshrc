@@ -12,9 +12,9 @@ setopt histignorealldups sharehistory
 # ------------------------------------------------------------------------------
 # COMPLETION STYLING (MUST be before plugins)
 # ------------------------------------------------------------------------------
-# zstyle ':completion:*' menu select=2
-# zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-# zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
+zstyle ':completion:*' menu select=2
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
 
 # ------------------------------------------------------------------------------
 # ZINIT - PLUGIN MANAGER
@@ -35,8 +35,6 @@ zinit light zsh-users/zsh-autosuggestions
 # FZF and fzf-tab (asynchronous)
 zinit ice lucid wait'0'
 zinit light junegunn/fzf
-zinit ice lucid wait'0'
-zinit light Aloxaf/fzf-tab
 
 # Other plugins
 zinit ice lucid; zinit snippet OMZ::plugins/git/git.plugin.zsh
@@ -49,7 +47,7 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 # PROMPT
 eval "$(dircolors -b)"
 eval "$(zoxide init zsh)"
-eval "$($HOME/.local/bin/oh-my-posh init zsh --config $HOME/.local/tokyo.omp.json)"
+eval "$(starship init zsh)"
 
 # ------------------------------------------------------------------------------
 # ALIASES
@@ -101,6 +99,4 @@ extract () {
   fi
 }
 
-# Automatically switch node versions based on .nvmrc
-# From the official NVM README: https://github.com/nvm-sh/nvm#deeper-shell-integration
 autoload -U add-zsh-hook

@@ -47,9 +47,5 @@ termux-setup-storage
 echo "Installing Youtube-dl..."
 curl -L https://raw.githubusercontent.com/OzakIOne/termux-youtube-dl/v2.0.1/install.sh | bash
 
-# Run package check from external script
-echo "Running package check..."
-curl -sL https://gist.githubusercontent.com/santhoshkumar/aba032a6dae1940ed57d860d5a0d963d/raw/bd18596aff92295dbcf102e6570deb5f0561a085/package.sh | bash
-
 echo "--- Setup Complete! ---"
 echo "Don't forget to run 'source ~/.zshrc' to apply the new shell configuration."

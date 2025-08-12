@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# Set cursor to a block
+echo -e "\e[2 q"
+
+# Display system information on startup
+rxfetch

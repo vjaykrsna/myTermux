@@ -1,0 +1,14 @@
+# ~/.nanorc
+#
+# Nano editor settings
+#
+
+# --- General ---
+set autoindent
+set constantshow
+set linenumbers
+set mouse
+set smooth
+set softwrap
+set tabsize 2
+set tabstospaces

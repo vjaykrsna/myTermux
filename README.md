@@ -1,37 +1,57 @@
-# Termux Environment Setup
+# Termux Dotfiles: A Modular & Minimal Setup
 
-This repository contains a `.zshrc` configuration and a setup script to quickly configure a powerful development environment in Termux.
+A clean, modular, and beautiful setup for your Termux environment. This configuration is designed to be simple to understand, easy to customize, and practical for everyday use.
 
-## Instructions
+## Features
 
-### Step 1: Change Repository (Recommended)
+- **Modular:** The installation is interactive. You choose what you want to install.
+- **Minimal:** The base setup is lightweight. No unnecessary packages are installed by default.
+- **Customizable:** The configuration is split into logical files, making it easy to add your own aliases, functions, and environment variables.
+- **Beautiful:** Optional theming with Oh My Zsh and Powerlevel10k to make your terminal look great.
 
-For faster downloads, it's highly recommended to switch to a better package repository before running the setup script. Run the following command and select a mirror that is close to you:
+## Installation
 
-```bash
-termux-change-repo
-```
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/user/repo ~/.dotfiles
+    cd ~/.dotfiles
+    ```
+    *(Replace `https://github.com/user/repo` with the actual URL of this repository.)*
 
-### Step 2: Run the Setup Script
+2.  **Run the installer:**
+    ```bash
+    chmod +x install.sh
+    ./install.sh
+    ```
+    The script will guide you through the installation process. You will be prompted to select the components you want to install.
 
-Make the setup script executable and then run it.
+## Structure
 
-```bash
-chmod +x setup.sh
-./setup.sh
-```
+This setup uses a modular structure to keep the configuration clean and organized.
 
-The script will:
-- Update all packages.
-- Install a curated list of development tools, languages, and utilities.
-- Configure shell essentials.
+-   `~/.zshrc`: The main Zsh configuration file. It's designed to be minimal and primarily sources other configuration files.
+-   `~/.config/zsh/`: This directory contains all your custom configurations.
+    -   `aliases.zsh`: Add your custom aliases here.
+    -   `functions.zsh`: Add your custom functions here.
+    -   `env.zsh`: Add your custom environment variables here.
 
-### Step 3: Reload Your Shell
+## Customization
 
-Once the script is finished, reload your Zsh configuration to apply all the changes.
+To customize your setup, simply edit the files in `~/.config/zsh/`.
 
-```bash
-source ~/.zshrc
-```
+-   **Aliases:** To add a new alias, open `~/.config/zsh/aliases.zsh` and add a new line, for example: `alias myalias="my command"`.
+-   **Functions:** To add a new function, open `~/.config/zsh/functions.zsh` and define your function.
+-   **Environment Variables:** To add a new environment variable, open `~/.config/zsh/env.zsh` and add a new line, for example: `export MY_VAR="my_value"`.
 
-Your Termux environment is now ready!
+## Theming
+
+During the installation, you can choose to install theming options.
+
+-   **Oh My Zsh:** A popular framework for managing Zsh configuration. A simple, clean theme is used by default.
+-   **Powerlevel10k:** A powerful and highly customizable Zsh theme. If you choose to install it, you will need to:
+    1.  Restart Termux after the installation is complete.
+    2.  Run the command `p10k configure` to go through the Powerlevel10k configuration wizard. This will allow you to customize your prompt to your liking.
+
+## Contributing
+
+Contributions are welcome! If you have any ideas, suggestions, or improvements, feel free to open an issue or submit a pull request.

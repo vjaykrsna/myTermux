@@ -2,7 +2,7 @@
 #
 # Main Zsh configuration file.
 # This file is designed to be minimal and easy to understand.
-# For more complex configurations, please use the modular files in ~/.config/zsh/
+# It serves as a template for the installer.
 
 # ------------------------------------------------------------------------------
 # ENCODING
@@ -43,28 +43,6 @@ setopt notify # report status of background jobs immediately
 # Add local bin directories to the path
 export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 
-# ------------------------------------------------------------------------------
-# MODULAR CONFIGURATION
-# ------------------------------------------------------------------------------
-# Source custom files for aliases, functions, etc.
-# These files are located in ~/.config/zsh/
-
-ZSH_CUSTOM_DIR="$HOME/.config/zsh"
-
-# Source aliases
-if [ -f "$ZSH_CUSTOM_DIR/aliases.zsh" ]; then
-    source "$ZSH_CUSTOM_DIR/aliases.zsh"
-fi
-
-# Source functions
-if [ -f "$ZSH_CUSTOM_DIR/functions.zsh" ]; then
-    source "$ZSH_CUSTOM_DIR/functions.zsh"
-fi
-
-# Source environment variables
-if [ -f "$ZSH_CUSTOM_DIR/env.zsh" ]; then
-    source "$ZSH_CUSTOM_DIR/env.zsh"
-fi
 
 # ------------------------------------------------------------------------------
 # PROMPT

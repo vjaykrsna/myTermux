@@ -4,12 +4,16 @@ A clean, modular, and beautiful setup for your Termux environment. This configur
 
 ## Features
 
+- **Fully Automated:** The installation script handles everything from package installation to configuration symlinking.
+- **Safe:** Automatically backs up any existing dotfiles into a timestamped directory (`~/dotfiles_backup_*`) before installation.
 - **Modular:** The installation is interactive. You choose what you want to install.
 - **Minimal:** The base setup is lightweight. No unnecessary packages are installed by default.
 - **Customizable:** The configuration is split into logical files, making it easy to add your own aliases, functions, and environment variables.
 - **Beautiful:** Optional theming with Oh My Zsh and Powerlevel10k to make your terminal look great.
 
 ## Installation
+
+Installation is simple. Just clone the repository and run the installer.
 
 1.  **Clone the repository:**
     ```bash
@@ -20,28 +24,27 @@ A clean, modular, and beautiful setup for your Termux environment. This configur
 
 2.  **Run the installer:**
     ```bash
-    chmod +x install.sh
     ./install.sh
     ```
-    The script will guide you through the installation process. You will be prompted to select the components you want to install.
+    The script will guide you through the installation process. It will automatically handle permissions, create backups of your existing files, and set up the necessary symlinks.
 
 ## Structure
 
-This setup uses a modular structure to keep the configuration clean and organized.
+This setup uses a modular structure to keep the configuration clean and organized. The installer symlinks the files from this repository to your home directory.
 
--   `~/.zshrc`: The main Zsh configuration file. It's designed to be minimal and primarily sources other configuration files.
--   `~/.config/zsh/`: This directory contains all your custom configurations.
-    -   `aliases.zsh`: Add your custom aliases here.
-    -   `functions.zsh`: Add your custom functions here.
-    -   `env.zsh`: Add your custom environment variables here.
+-   `~/.zshrc`: A symlink to the `.zshrc` file in this repository.
+-   `~/.config/`: A symlink to the `.config` directory in this repository.
+    -   `zsh/aliases.zsh`: Add your custom aliases here.
+    -   `zsh/functions.zsh`: Add your custom functions here.
+    -   `zsh/env.zsh`: Add your custom environment variables here.
 
 ## Customization
 
-To customize your setup, simply edit the files in `~/.config/zsh/`.
+To customize your setup, **edit the files within this cloned repository**, not the symlinked files in your home directory. Your changes will be reflected automatically.
 
--   **Aliases:** To add a new alias, open `~/.config/zsh/aliases.zsh` and add a new line, for example: `alias myalias="my command"`.
--   **Functions:** To add a new function, open `~/.config/zsh/functions.zsh` and define your function.
--   **Environment Variables:** To add a new environment variable, open `~/.config/zsh/env.zsh` and add a new line, for example: `export MY_VAR="my_value"`.
+-   **Aliases:** To add a new alias, open `.config/zsh/aliases.zsh` in this repository and add a new line.
+-   **Functions:** To add a new function, open `.config/zsh/functions.zsh` in this repository and define your function.
+-   **Environment Variables:** To add a new environment variable, open `.config/zsh/env.zsh` in this repository and add a new line.
 
 ## Theming
 

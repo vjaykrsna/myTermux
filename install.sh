@@ -117,21 +117,27 @@ main() {
     done
 
     if [[ "$choices" == *"1"* ]]; then
+        chmod +x ./scripts/install_base_tools.sh
         ./scripts/install_base_tools.sh
     fi
     if [[ "$choices" == *"2"* ]]; then
+        chmod +x ./scripts/install_python.sh
         ./scripts/install_python.sh
     fi
     if [[ "$choices" == *"3"* ]]; then
+        chmod +x ./scripts/install_nodejs.sh
         ./scripts/install_nodejs.sh
     fi
     if [[ "$choices" == *"4"* ]]; then
+        chmod +x ./scripts/install_neovim.sh
         ./scripts/install_neovim.sh
     fi
     if [[ "$choices" == *"5"* ]]; then
+        chmod +x ./scripts/install_theming.sh
         ./scripts/install_theming.sh
     fi
     if [[ "$choices" == *"6"* ]]; then
+        chmod +x ./scripts/install_visuals.sh
         ./scripts/install_visuals.sh
     fi
 

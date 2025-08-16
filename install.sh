@@ -83,9 +83,8 @@ main_menu() {
     echo "2) Python Environment"
     echo "3) Node.js Environment"
     echo "4) Neovim (modern text editor)"
-    echo "5) Theming (oh-my-zsh, powerlevel10k, etc.)"
-    echo "6) Visual Enhancements (eza, bat, themes)"
-    echo "7) YouTube-DL (for sharing links)"
+    echo "5) Visual Enhancements (eza, bat, themes)"
+    echo "6) YouTube-DL (for sharing links)"
     echo "----------------------------------------"
     echo "s) Start installation"
     echo "q) Quit"
@@ -120,30 +119,21 @@ main() {
     done
 
     if [[ "$choices" == *"1"* ]]; then
-        chmod +x ./scripts/install_base_tools.sh
         ./scripts/install_base_tools.sh
     fi
     if [[ "$choices" == *"2"* ]]; then
-        chmod +x ./scripts/install_python.sh
         ./scripts/install_python.sh
     fi
     if [[ "$choices" == *"3"* ]]; then
-        chmod +x ./scripts/install_nodejs.sh
         ./scripts/install_nodejs.sh
     fi
     if [[ "$choices" == *"4"* ]]; then
-        chmod +x ./scripts/install_neovim.sh
         ./scripts/install_neovim.sh
     fi
     if [[ "$choices" == *"5"* ]]; then
-        chmod +x ./scripts/install_theming.sh
-        ./scripts/install_theming.sh
-    fi
-    if [[ "$choices" == *"6"* ]]; then
-        chmod +x ./scripts/install_visuals.sh
         ./scripts/install_visuals.sh
     fi
-    if [[ "$choices" == *"7"* ]]; then
+    if [[ "$choices" == *"6"* ]]; then
         ./scripts/install_youtube_dl.sh
     fi
 

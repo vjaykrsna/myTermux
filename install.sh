@@ -56,6 +56,7 @@ main_menu() {
     echo "3) Node.js Environment"
     echo "4) Neovim (modern text editor)"
     echo "5) Theming (oh-my-zsh, powerlevel10k, etc.)"
+    echo "6) Visual Enhancements (eza, bat, themes)"
     echo "----------------------------------------"
     echo "s) Start installation"
     echo "q) Quit"
@@ -97,6 +98,9 @@ main() {
     fi
     if [[ "$choices" == *"5"* ]]; then
         ./scripts/install_theming.sh
+    fi
+    if [[ "$choices" == *"6"* ]]; then
+        ./scripts/install_visuals.sh
     fi
 
     success "--- All selected components have been installed! ---"

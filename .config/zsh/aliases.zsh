@@ -7,9 +7,9 @@
 # ------------------------------------------------------------------------------
 # GENERAL
 # ------------------------------------------------------------------------------
-alias l='ls -lh'
-alias la='ls -lha'
-alias ll='ls -l'
+alias l='eza --icons -lgh --group-directories-first' # long format, git status
+alias la='eza --icons -lgha --group-directories-first' # all files, long format, git status
+alias ll='eza --icons -lgh --group-directories-first' # same as l
 alias ..='cd ..'
 alias ...='cd ../..'
 
@@ -37,3 +37,43 @@ alias c='clear'
 alias x='exit'
 alias h='history'
 alias path='echo -e ${PATH//:/\\n}'
+
+# ------------------------------------------------------------------------------
+# VISUALS
+# ------------------------------------------------------------------------------
+# Replace ls with eza
+alias ls='eza --icons'
+alias lt='eza --icons --tree' # tree view
+alias lta='eza --icons --tree -lgha' # tree view, all files, long format
+
+# Replace cat with bat
+alias cat='bat --theme=OneHalfDark'
+
+# Theme switchers
+alias chcolor='~/.dotfiles/scripts/theme_switchers/colorscheme/colors.sh'
+alias chfont='~/.dotfiles/scripts/theme_switchers/fonts/fonts.sh'
+alias chzsh='~/.dotfiles/scripts/theme_switchers/zsh/changetheme.sh'
+
+# Custom fetch scripts
+alias rxfetch='~/.local/bin/rxfetch'
+
+# ------------------------------------------------------------------------------
+# COLOR TOYS
+# ------------------------------------------------------------------------------
+alias 256colors2='~/.local/bin/256colors2.pl'
+alias bloks='~/.local/bin/bloks'
+alias colortest='~/.local/bin/colortest'
+alias colortest-slim='~/.local/bin/colortest-slim'
+alias colorview='~/.local/bin/colorview'
+alias colorbars='~/.local/bin/colorbars'
+alias panes='~/.local/bin/panes'
+alias pipes1='~/.local/bin/pipes1'
+alias pipes2='~/.local/bin/pipes2'
+alias pipes2-slim='~/.local/bin/pipes2-slim'
+alias dna='~/.local/bin/dna'
+alias ghost='~/.local/bin/ghost'
+alias jfetch='~/.local/bin/jfetch'
+alias pacman='~/.local/bin/pacman'
+alias pipesx='~/.local/bin/pipesx'
+alias rains='~/.local/bin/rains'
+alias spacey='~/.local/bin/spacey'

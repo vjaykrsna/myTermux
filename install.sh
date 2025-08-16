@@ -40,6 +40,32 @@ core_setup() {
     # Set Zsh as the default shell
     chsh -s zsh
 
+    # --- Symlink .config directory ---
+    info "--- Symlinking .config directory ---"
+    chmod +x scripts/create_symlinks.sh
+    ./scripts/create_symlinks.sh
+
+    # --- Setup .zshrc ---
+    info "--- Setting up .zshrc ---"
+    # Backup existing .zshrc if it exists
+    if [ -e "$HOME/.zshrc" ] || [ -L "$HOME/.zshrc" ]; then
+        BACKUP_DIR="$HOME/dotfiles_backup_$(date +%Y-%m-%d_%H-%M-%S)"
+        if [ ! -d "$BACKUP_DIR" ]; then
+            mkdir -p "$BACKUP_DIR"
+            info "Created backup directory at $BACKUP_DIR"
+        fi
+        warn "Backing up existing .zshrc to $BACKUP_DIR"
+        mv -f "$HOME/.zshrc" "$BACKUP_DIR/"
+    fi
+
+    # Copy the .zshrc template
+    info "Copying .zshrc template"
+    cp .zshrc "$HOME/.zshrc"
+
+    # Append the custom configuration
+    chmod +x scripts/system/append_custom_config.sh
+    ./scripts/system/append_custom_config.sh
+
     success "--- Core Setup Complete ---"
 }
 
@@ -66,6 +92,12 @@ main_menu() {
 
 # --- Main script logic ---
 main() {
+    # --- Sanity check ---
+    # Ensure the script is being run from the root of the repository
+    if [ ! -d "scripts" ] || [ ! -f "install.sh" ]; then
+        error "Please run this script from the root of the dotfiles repository."
+    fi
+
     core_setup
 
     while true; do

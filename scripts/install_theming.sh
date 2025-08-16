@@ -18,16 +18,14 @@ warn() {
 # --- Oh My Zsh Installation ---
 install_oh_my_zsh() {
     info "--- Installing Oh My Zsh ---"
-    # The installer will back up the existing .zshrc and create a new one.
-    # I'll need to re-add my custom config later.
+    # The Oh My Zsh installer will create a new .zshrc.
+    # We will let it do that, and then we'll append our custom configuration.
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
-    # Prepend my custom .zshrc to the new one created by Oh My Zsh
-    # This is a bit of a hack, but it's the easiest way to merge the two.
-    cat ~/.zshrc.pre-oh-my-zsh > ~/.zshrc.tmp
-    echo "" >> ~/.zshrc.tmp
-    cat ~/.zshrc >> ~/.zshrc.tmp
-    mv ~/.zshrc.tmp ~/.zshrc
+    # Append the custom configuration
+    info "--- Appending custom configuration to new .zshrc ---"
+    chmod +x scripts/system/append_custom_config.sh
+    ./scripts/system/append_custom_config.sh
 
     # Set a simple, clean theme
     sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="agnoster"/g' ~/.zshrc

@@ -16,9 +16,9 @@ info "--- Installing Python Environment ---"
 pkg install -y python
 
 # Upgrade pip
-pip install --upgrade pip
+pip install --upgrade pip --break-system-packages
 
 # Install pipx
-pip install pipx
+pip install pipx --break-system-packages
 
 info "--- Python Environment Installation Complete ---"

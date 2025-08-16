@@ -19,6 +19,9 @@ pkg install -y \
     openssh \
     micro \
     fzf \
-    zoxide
+    zoxide \
+    rust \
+    golang \
+    starship
 
 info "--- Base Development Tools Installation Complete ---"

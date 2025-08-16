@@ -31,6 +31,10 @@ error() {
 core_setup() {
     info "--- Starting Core Setup ---"
 
+    # Make all scripts executable
+    info "Making all scripts in scripts/ executable..."
+    find scripts -name "*.sh" -exec chmod +x {} +
+
     # Update and upgrade packages
     pkg update -y && pkg upgrade -y
 
@@ -42,7 +46,6 @@ core_setup() {
 
     # --- Symlink .config directory ---
     info "--- Symlinking .config directory ---"
-    chmod +x scripts/create_symlinks.sh
     ./scripts/create_symlinks.sh
 
     # --- Setup .zshrc ---
@@ -63,7 +66,6 @@ core_setup() {
     cp .zshrc "$HOME/.zshrc"
 
     # Append the custom configuration
-    chmod +x scripts/system/append_custom_config.sh
     ./scripts/system/append_custom_config.sh
 
     success "--- Core Setup Complete ---"
@@ -83,6 +85,7 @@ main_menu() {
     echo "4) Neovim (modern text editor)"
     echo "5) Theming (oh-my-zsh, powerlevel10k, etc.)"
     echo "6) Visual Enhancements (eza, bat, themes)"
+    echo "7) YouTube-DL (for sharing links)"
     echo "----------------------------------------"
     echo "s) Start installation"
     echo "q) Quit"
@@ -139,6 +142,9 @@ main() {
     if [[ "$choices" == *"6"* ]]; then
         chmod +x ./scripts/install_visuals.sh
         ./scripts/install_visuals.sh
+    fi
+    if [[ "$choices" == *"7"* ]]; then
+        ./scripts/install_youtube_dl.sh
     fi
 
     success "--- All selected components have been installed! ---"

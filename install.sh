@@ -85,6 +85,7 @@ main_menu() {
     echo "4) Neovim (modern text editor)"
     echo "5) Visual Enhancements (eza, bat, themes)"
     echo "6) YouTube-DL (for sharing links)"
+    echo "7) Additional CLI Tools (crush, gemini-cli)"
     echo "----------------------------------------"
     echo "s) Start installation"
     echo "q) Quit"
@@ -135,6 +136,9 @@ main() {
     fi
     if [[ "$choices" == *"6"* ]]; then
         ./scripts/install_youtube_dl.sh
+    fi
+    if [[ "$choices" == *"7"* ]]; then
+        ./scripts/install_cli_tools.sh
     fi
 
     success "--- All selected components have been installed! ---"

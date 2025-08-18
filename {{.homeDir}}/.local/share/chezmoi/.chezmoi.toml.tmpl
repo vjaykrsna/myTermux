@@ -1,0 +1,12 @@
+[data]
+    install_python = {{ promptBoolOnce . "install_python" "Install Python environment?" }}
+    install_nodejs = {{ promptBoolOnce . "install_nodejs" "Install Node.js environment?" }}
+    install_neovim = {{ promptBoolOnce . "install_neovim" "Install Neovim?" }}
+    install_visuals = {{ promptBoolOnce . "install_visuals" "Install visual enhancements?" }}
+    install_youtube_dl = {{ promptBoolOnce . "install_youtube_dl" "Install YouTube-DL?" }}
+    install_cli_tools = {{ promptBoolOnce . "install_cli_tools" "Install additional CLI tools?" }}
+    install_colortoys = {{ promptBoolOnce . "install_colortoys" "Install colortoys?" }}
+
+[backup]
+    enable = true
+    dir = "{{ .chezmoi.homeDir }}/dotfiles_backup"

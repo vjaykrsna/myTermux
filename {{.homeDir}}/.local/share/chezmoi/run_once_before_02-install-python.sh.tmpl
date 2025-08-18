@@ -1,3 +1,4 @@
+{{ if .install_python -}}
 #!/data/data/com.termux/files/usr/bin/bash
 
 # This script installs Python and related tools.
@@ -22,3 +23,4 @@ pip install --upgrade pip --break-system-packages
 pip install pipx --break-system-packages
 
 info "--- Python Environment Installation Complete ---"
+{{ end -}}

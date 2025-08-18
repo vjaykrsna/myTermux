@@ -1,0 +1,25 @@
+{{ if .install_youtube_dl -}}
+#!/data/data/com.termux/files/usr/bin/bash
+
+# This script installs the dependencies for the YouTube-DL feature.
+
+# --- Colors for output ---
+C_RESET='\033[0m'
+C_BLUE='\033[0;34m'
+
+info() {
+    printf "${C_BLUE}%s${C_RESET}\n" "$1"
+}
+
+info "--- Installing YouTube-DL Dependencies ---"
+
+# --- Install dependencies ---
+info "Installing dependencies: python, ffmpeg..."
+pkg install -y python ffmpeg
+
+# --- Install yt-dlp ---
+info "Installing yt-dlp..."
+pip install yt-dlp --break-system-packages
+
+info "--- YouTube-DL Dependencies Installation Complete ---"
+{{ end -}}

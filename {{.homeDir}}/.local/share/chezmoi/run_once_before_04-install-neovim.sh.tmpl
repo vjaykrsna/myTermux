@@ -1,3 +1,4 @@
+{{ if .install_neovim -}}
 #!/data/data/com.termux/files/usr/bin/bash
 
 # This script installs Neovim.
@@ -16,3 +17,4 @@ pkg install -y neovim
 
 info "--- Neovim Installation Complete ---"
 info "You can configure Neovim by creating a file at ~/.config/nvim/init.vim"
+{{ end -}}

@@ -1,0 +1,29 @@
+{{ if .install_visuals -}}
+#!/data/data/com.termux/files/usr/bin/bash
+
+# This script will install visual enhancements.
+
+# --- Colors for output ---
+C_RESET='\033[0m'
+C_BLUE='\033[0;34m'
+
+info() {
+    printf "${C_BLUE}%s${C_RESET}\n" "$1"
+}
+
+info "--- Installing Visual Enhancements ---"
+
+info "Installing eza (a modern replacement for ls)..."
+pkg install -y eza
+
+info "Installing bat (a cat clone with syntax highlighting)..."
+pkg install -y bat
+
+info "Installing neofetch..."
+pkg install -y neofetch
+
+info "Installing unzip..."
+pkg install -y unzip
+
+info "--- Visual Enhancements Installation Complete ---"
+{{ end -}}

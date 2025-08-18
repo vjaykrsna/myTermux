@@ -27,6 +27,7 @@ pkg install -y \
     aria2
 
 info "Installing apt-fast script..."
+# The current working directory of the script will be the chezmoi source dir
 cp -f "assets/bin/apt-fast" "$PREFIX/bin/apt-fast"
 chmod +x "$PREFIX/bin/apt-fast"
 

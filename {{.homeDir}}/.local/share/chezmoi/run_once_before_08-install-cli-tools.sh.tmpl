@@ -1,3 +1,4 @@
+{{ if .install_cli_tools -}}
 #!/data/data/com.termux/files/usr/bin/bash
 
 # This script installs additional CLI tools.
@@ -26,3 +27,4 @@ info "Installing gemini-cli (from Google)..."
 npm install -g @google/gemini-cli
 
 success "--- Additional CLI Tools Installation Complete ---"
+{{ end -}}

@@ -22,6 +22,7 @@ pkg install -y \
     zoxide \
     rust \
     golang \
-    starship
+    starship \
+    termux-api
 
 info "--- Base Development Tools Installation Complete ---"

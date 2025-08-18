@@ -34,6 +34,7 @@ HOME_DIR=$HOME
 # and the value is the destination in the home directory.
 declare -A symlinks=(
     ["$DOTFILES_DIR/.config"]="$HOME_DIR/.config"
+    ["$DOTFILES_DIR/assets/apt/sources.list"]="$PREFIX/etc/apt/sources.list"
 )
 
 # --- Main symlinking function ---

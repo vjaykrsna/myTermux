@@ -1,0 +1,5 @@
+deb https://termux.niranjan.co/termux-main stable main
+deb https://mirrors.ravidwivedi.in/termux/termux-main stable main
+deb https://ftp.fau.de/termux/termux-main stable main
+deb https://mirror.freedif.org/termux/termux-main stable main
+deb https://mirrors.medzik.dev/termux/termux-main stable main

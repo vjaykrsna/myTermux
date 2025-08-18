@@ -19,6 +19,10 @@ pkg install -y \
     openssh \
     micro \
     fzf \
-    zoxide
+    zoxide \
+    rust \
+    golang \
+    starship \
+    termux-api
 
 info "--- Base Development Tools Installation Complete ---"

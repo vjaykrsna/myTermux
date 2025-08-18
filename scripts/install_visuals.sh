@@ -92,7 +92,6 @@ prompt_install_colortoys() {
     echo ""
     read -p "Do you want to install the color toys (animated pipes, pacman, etc.)? (y/n): " choice
     if [[ "$choice" == "y" || "$choice" == "Y" ]]; then
-        chmod +x ./scripts/install_colortoys.sh
         ./scripts/install_colortoys.sh
     else
         info "Skipping color toys installation."

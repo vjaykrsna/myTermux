@@ -23,6 +23,11 @@ pkg install -y \
     rust \
     golang \
     starship \
-    termux-api
+    termux-api \
+    aria2
+
+info "Installing apt-fast script..."
+cp -f "assets/bin/apt-fast" "$PREFIX/bin/apt-fast"
+chmod +x "$PREFIX/bin/apt-fast"
 
 info "--- Base Development Tools Installation Complete ---"

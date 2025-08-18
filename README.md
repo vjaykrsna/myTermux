@@ -17,7 +17,7 @@ Installation is simple. Just clone the repository and run the installer.
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/vjaykrsna/Termux-Setup.git ~/.dotfiles
+    git clone https://github.com/user/repo ~/.dotfiles
     cd ~/.dotfiles
     ```
     *(Replace `https://github.com/user/repo` with the actual URL of this repository.)*

@@ -30,4 +30,8 @@ info "Installing apt-fast script..."
 cp -f "assets/bin/apt-fast" "$PREFIX/bin/apt-fast"
 chmod +x "$PREFIX/bin/apt-fast"
 
+info "Configuring make for parallel execution..."
+mkdir -p "$PREFIX/etc"
+echo 'MAKEFLAGS = -j$(nproc)' > "$PREFIX/etc/make.conf"
+
 info "--- Base Development Tools Installation Complete ---"

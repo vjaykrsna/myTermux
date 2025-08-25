@@ -18,9 +18,19 @@ success() {
 # --- Main logic ---
 
 SOURCES_LIST_SRC="{{ .chezmoi.sourceDir }}/assets/apt/sources.list"
-SOURCES_LIST_DEST_DIR="$PREFIX/etc/apt"
+# Determine the destination path based on the environment
+if [ -n "$PREFIX" ]; then
+    # Use Termux-specific path
+    SOURCES_LIST_DEST_DIR="$PREFIX/etc/apt"
+else
+    # Use standard Linux path
+    SOURCES_LIST_DEST_DIR="/etc/apt"
+fi
 SOURCES_LIST_DEST_FILE="$SOURCES_LIST_DEST_DIR/sources.list"
 
+# Create the destination directory.
+# Note: This may fail if you do not have write permissions (e.g., to /etc/apt).
+# If it fails, you may need to run 'sudo chezmoi apply' to apply this change.
 mkdir -p "$SOURCES_LIST_DEST_DIR"
 
 info "--- Creating symlink for apt sources.list ---"

@@ -1,7 +1,7 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
 # This script creates symlinks for the dotfiles in this repository.
-# It will back up any existing files before creating the symlinks.
+# It backs up any existing files to the specified backup directory.
 
 # --- Colors for output ---
 C_RESET='\033[0m'
@@ -21,53 +21,59 @@ warn() {
     printf "${C_YELLOW}%s${C_RESET}\n" "$1"
 }
 
-# --- Symlink creation logic ---
+error() {
+    printf "${C_RED}%s${C_RESET}\n" "$1"
+    exit 1
+}
 
-# Get the directory of the script
-# This will be the root of the dotfiles repository
-DOTFILES_DIR=$(pwd)
+# --- Main logic ---
+
+# Get the backup directory from the first argument
+if [ -z "$1" ]; then
+    error "Backup directory not provided. Usage: ./create_symlinks.sh <backup_dir>"
+fi
+BACKUP_DIR="$1"
+
+# Determine the script's own directory to find the dotfiles root
+# This makes the script runnable from anywhere
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
+DOTFILES_DIR=$(dirname "$SCRIPT_DIR")
 HOME_DIR=$HOME
 
 # --- Files and directories to symlink ---
-# Add any other files or directories you want to symlink here.
 # The key is the source file/directory in the dotfiles repo,
-# and the value is the destination in the home directory.
+# and the value is the destination.
 declare -A symlinks=(
+    ["$DOTFILES_DIR/.zshrc"]="$HOME_DIR/.zshrc"
     ["$DOTFILES_DIR/.config"]="$HOME_DIR/.config"
     ["$DOTFILES_DIR/assets/apt/sources.list"]="$PREFIX/etc/apt/sources.list"
 )
 
-# --- Main symlinking function ---
-create_symlinks() {
-    info "--- Starting to create symlinks ---"
+info "--- Starting to create symlinks ---"
+has_backed_up=false
 
-    BACKUP_DIR="$HOME_DIR/dotfiles_backup_$(date +%Y-%m-%d_%H-%M-%S)"
+for src in "${!symlinks[@]}"; do
+    dest="${symlinks[$src]}"
+    dest_dir=$(dirname "$dest")
 
-    for src in "${!symlinks[@]}"; do
-        dest="${symlinks[$src]}"
-        dest_dir=$(dirname "$dest")
+    # Create the destination directory if it doesn't exist
+    mkdir -p "$dest_dir"
 
-        # Create the destination directory if it doesn't exist
-        mkdir -p "$dest_dir"
-
-        # If the destination file/symlink exists, back it up
-        if [ -e "$dest" ] || [ -L "$dest" ]; then
-            # Create backup directory if it doesn't exist
-            if [ ! -d "$BACKUP_DIR" ]; then
-                mkdir -p "$BACKUP_DIR"
-                success "Created backup directory at $BACKUP_DIR"
-            fi
-            warn "Backing up existing $dest to $BACKUP_DIR"
-            mv -f "$dest" "$BACKUP_DIR/"
+    # If the destination file/symlink exists, back it up
+    if [ -e "$dest" ] || [ -L "$dest" ]; then
+        # Create backup directory only when needed
+        if ! $has_backed_up; then
+            mkdir -p "$BACKUP_DIR"
+            success "Created backup directory at $BACKUP_DIR"
+            has_backed_up=true
         fi
+        warn "Backing up existing $dest to $BACKUP_DIR"
+        mv -f "$dest" "$BACKUP_DIR/"
+    fi
 
-        # Create the symlink
-        info "Creating symlink for $src -> $dest"
-        ln -s "$src" "$dest"
-    done
+    # Create the symlink
+    info "Creating symlink for $src -> $dest"
+    ln -s "$src" "$dest"
+done
 
-    success "--- Symlinks created successfully! ---"
-}
-
-# --- Run the script ---
-create_symlinks
+success "--- Symlinks created successfully! ---"

@@ -1,60 +1,66 @@
-# Termux Dotfiles: A Modular & Minimal Setup
+# Termux Dotfiles with Chezmoi
 
-A clean, modular, and beautiful setup for your Termux environment. This configuration is designed to be simple to understand, easy to customize, and practical for everyday use.
+A clean, modular, and beautiful setup for your Termux environment, now managed with [chezmoi](https://chezmoi.io). This configuration is designed to be simple to install, easy to customize, and practical for everyday use.
 
 ## Features
 
-- **Fully Automated:** The installation script handles everything from package installation to configuration symlinking.
-- **Safe:** Automatically backs up any existing dotfiles into a timestamped directory (`~/dotfiles_backup_*`) before installation.
-- **Modular:** The installation is interactive. You choose what you want to install.
-- **Minimal:** The base setup is lightweight. No unnecessary packages are installed by default.
+- **Automated with Chezmoi:** The entire setup is managed by `chezmoi`, a powerful dotfile manager.
+- **Simple Installation:** A single command is all you need to get started.
+- **Modular and Scriptable:** The configuration is modular, and `chezmoi` handles the execution of installation scripts for tools and applications.
 - **Customizable:** The configuration is split into logical files, making it easy to add your own aliases, functions, and environment variables.
 - **Beautiful:** Comes with the Starship prompt, a minimal and fast cross-shell prompt.
-- **Modern:** Uses Zinit as a plugin manager for Zsh, which is fast and easy to use.
+
+## Prerequisites
+
+Before you begin, you need to have `git` and `chezmoi` installed on your Termux.
+
+1.  **Install Git:**
+    ```bash
+    pkg install git
+    ```
+
+2.  **Install Chezmoi:**
+    ```bash
+    pkg install chezmoi
+    ```
 
 ## Installation
 
-Installation is simple. Just clone the repository and run the installer.
+To install the dotfiles, run the following command:
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/user/repo ~/.dotfiles
-    cd ~/.dotfiles
-    ```
-    *(Replace `https://github.com/user/repo` with the actual URL of this repository.)*
+```bash
+chezmoi init --apply <your-repo-url>
+```
 
-2.  **Run the installer:**
-    ```bash
-    ./install.sh
-    ```
-    The script will guide you through the installation process. It will automatically handle permissions, create backups of your existing files, and set up the necessary symlinks.
+Replace `<your-repo-url>` with the URL of this repository. `chezmoi` will clone the repository, apply the dotfiles, and run all the necessary installation scripts.
 
 ## Structure
 
-This setup uses a modular structure to keep the configuration clean and organized. The installer symlinks the files from this repository to your home directory.
+This setup uses `chezmoi` to manage the dotfiles. The source files are located in this repository, and `chezmoi` applies them to your home directory.
 
--   `~/.zshrc`: A symlink to the `.zshrc` file in this repository.
--   `~/.config/`: A symlink to the `.config` directory in this repository.
-    -   `zsh/aliases.zsh`: Add your custom aliases here.
-    -   `zsh/functions.zsh`: Add your custom functions here.
-    -   `zsh/env.zsh`: Add your custom environment variables here.
+-   `dot_zshrc`: This is the template for your `~/.zshrc` file.
+-   `dot_config/`: This directory contains the configuration for various tools. It will be mapped to `~/.config/`.
+-   `.chezmoiscripts/`: This directory contains scripts that are run by `chezmoi` during the `apply` process. These scripts install tools and applications.
+-   `bin/`: This directory contains custom scripts that will be symlinked to `~/.local/bin/`.
 
 ## Customization
 
-To customize your setup, **edit the files within this cloned repository**, not the symlinked files in your home directory. Your changes will be reflected automatically.
+To customize your setup, you need to edit the files in your `chezmoi` source directory.
 
--   **Aliases:** To add a new alias, open `.config/zsh/aliases.zsh` in this repository and add a new line.
--   **Functions:** To add a new function, open `.config/zsh/functions.zsh` in this repository and define your function.
--   **Environment Variables:** To add a new environment variable, open `.config/zsh/env.zsh` in this repository and add a new line.
+1.  **Find your `chezmoi` source directory:**
+    ```bash
+    chezmoi source-path
+    ```
 
-## Theming & Prompt
+2.  **Edit the files:**
+    -   To add a new alias, edit `dot_config/zsh/aliases.zsh`.
+    -   To add a new function, edit `dot_config/zsh/functions.zsh`.
+    -   To add a new environment variable, edit `dot_config/zsh/env.zsh`.
 
-This setup uses Zinit as a Zsh plugin manager and Starship for the prompt.
-
--   **Zinit:** A fast and flexible plugin manager. Plugins are managed in the `.zshrc` file.
--   **Starship:** A minimal, blazing-fast, and infinitely customizable prompt for any shell! The configuration for Starship can be found in `~/.config/starship.toml` (this file is not included in this repository).
-
-No special configuration is needed after installation. Restart Termux and you are good to go.
+3.  **Apply the changes:**
+    ```bash
+    chezmoi apply
+    ```
 
 ## Contributing
 

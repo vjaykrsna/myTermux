@@ -25,7 +25,7 @@ info "Installing unzip..."
 pkg install -y unzip
 
 info "Creating fonts directory..."
-mkdir -p ~/.dotfiles/fonts
+mkdir -p {{ .chezmoi.sourceDir }}/fonts
 
 # --- Function to install fonts ---
 install_fonts() {
@@ -37,21 +37,21 @@ install_fonts() {
     # Fira Code
     info "Downloading Fira Code Nerd Font..."
     curl -L https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/FiraCode.zip -o $TMP_DIR/FiraCode.zip
-    unzip -o $TMP_DIR/FiraCode.zip -d ~/.dotfiles/fonts/ 'FiraCodeNerdFont-Regular.ttf'
+    unzip -o $TMP_DIR/FiraCode.zip -d {{ .chezmoi.sourceDir }}/fonts/ 'FiraCodeNerdFont-Regular.ttf'
 
     # JetBrains Mono
     info "Downloading JetBrains Mono Nerd Font..."
     curl -L https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip -o $TMP_DIR/JetBrainsMono.zip
-    unzip -o $TMP_DIR/JetBrainsMono.zip -d ~/.dotfiles/fonts/ 'JetBrainsMonoNerdFont-Regular.ttf'
+    unzip -o $TMP_DIR/JetBrainsMono.zip -d {{ .chezmoi.sourceDir }}/fonts/ 'JetBrainsMonoNerdFont-Regular.ttf'
 
     # Hack
     info "Downloading Hack Nerd Font..."
     curl -L https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Hack.zip -o $TMP_DIR/Hack.zip
-    unzip -o $TMP_DIR/Hack.zip -d ~/.dotfiles/fonts/ 'HackNerdFont-Regular.ttf'
+    unzip -o $TMP_DIR/Hack.zip -d {{ .chezmoi.sourceDir }}/fonts/ 'HackNerdFont-Regular.ttf'
 
     # Meslo (recommended for Powerlevel10k)
     info "Downloading MesloLGS NF..."
-    curl -fLo ~/.dotfiles/fonts/MesloLGS-NF-Regular.ttf https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf
+    curl -fLo {{ .chezmoi.sourceDir }}/fonts/MesloLGS-NF-Regular.ttf https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf
 
     # Clean up
     rm -rf $TMP_DIR
@@ -78,7 +78,7 @@ install_zinit() {
 install_neofetch_config() {
     info "Installing custom neofetch configuration..."
     mkdir -p ~/.config/neofetch
-    cp -f ~/.dotfiles/.config/neofetch/config.conf ~/.config/neofetch/
+    cp -f {{ .chezmoi.sourceDir }}/dot_config/neofetch/config.conf ~/.config/neofetch/
     info "Neofetch configuration installed."
 }
 
@@ -86,7 +86,7 @@ install_neofetch_config() {
 install_rxfetch() {
     info "Installing rxfetch..."
     mkdir -p ~/.local/bin
-    cp -f ~/.dotfiles/scripts/rxfetch.sh ~/.local/bin/rxfetch
+    cp -f {{ .chezmoi.sourceDir }}/.chezmoiscripts/run_onchange_rxfetch.sh ~/.local/bin/rxfetch
     chmod +x ~/.local/bin/rxfetch
     info "rxfetch installed."
 }
@@ -96,7 +96,7 @@ prompt_install_colortoys() {
     echo ""
     read -p "Do you want to install the color toys (animated pipes, pacman, etc.)? (y/n): " choice
     if [[ "$choice" == "y" || "$choice" == "Y" ]]; then
-        ./scripts/install_colortoys.sh
+        . {{ .chezmoi.sourceDir }}/.chezmoiscripts/run_onchange_install_colortoys.sh
     else
         info "Skipping color toys installation."
     fi

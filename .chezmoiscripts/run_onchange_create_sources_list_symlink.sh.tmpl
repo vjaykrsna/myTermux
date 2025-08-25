@@ -1,0 +1,35 @@
+#!/bin/sh
+
+# This script creates a symlink for the apt sources.list.
+
+# --- Colors for output ---
+C_RESET='\033[0m'
+C_GREEN='\033[0;32m'
+C_BLUE='\033[0;34m'
+
+info() {
+    printf "${C_BLUE}%s${C_RESET}\n" "$1"
+}
+
+success() {
+    printf "${C_GREEN}%s${C_RESET}\n" "$1"
+}
+
+# --- Main logic ---
+
+SOURCES_LIST_SRC="{{ .chezmoi.sourceDir }}/assets/apt/sources.list"
+SOURCES_LIST_DEST_DIR="$PREFIX/etc/apt"
+SOURCES_LIST_DEST_FILE="$SOURCES_LIST_DEST_DIR/sources.list"
+
+mkdir -p "$SOURCES_LIST_DEST_DIR"
+
+info "--- Creating symlink for apt sources.list ---"
+
+if [ -e "$SOURCES_LIST_DEST_FILE" ] || [ -L "$SOURCES_LIST_DEST_FILE" ]; then
+    info "Symlink for sources.list already exists."
+else
+    info "Creating symlink for sources.list -> $SOURCES_LIST_DEST_FILE"
+    ln -s "$SOURCES_LIST_SRC" "$SOURCES_LIST_DEST_FILE"
+fi
+
+success "--- apt sources.list symlink created successfully! ---"

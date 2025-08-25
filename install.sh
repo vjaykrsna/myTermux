@@ -44,29 +44,10 @@ core_setup() {
     # Set Zsh as the default shell
     chsh -s zsh
 
-    # --- Symlink .config directory ---
-    info "--- Symlinking .config directory ---"
-    ./scripts/create_symlinks.sh
-
-    # --- Setup .zshrc ---
-    info "--- Setting up .zshrc ---"
-    # Backup existing .zshrc if it exists
-    if [ -e "$HOME/.zshrc" ] || [ -L "$HOME/.zshrc" ]; then
-        BACKUP_DIR="$HOME/dotfiles_backup_$(date +%Y-%m-%d_%H-%M-%S)"
-        if [ ! -d "$BACKUP_DIR" ]; then
-            mkdir -p "$BACKUP_DIR"
-            info "Created backup directory at $BACKUP_DIR"
-        fi
-        warn "Backing up existing .zshrc to $BACKUP_DIR"
-        mv -f "$HOME/.zshrc" "$BACKUP_DIR/"
-    fi
-
-    # Copy the .zshrc template
-    info "Copying .zshrc template"
-    cp .zshrc "$HOME/.zshrc"
-
-    # Append the custom configuration
-    ./scripts/system/append_custom_config.sh
+    # --- Create backups and symlinks ---
+    info "--- Backing up existing files and creating symlinks ---"
+    BACKUP_DIR="$HOME/dotfiles_backup_$(date +%Y-%m-%d_%H-%M-%S)"
+    ./scripts/create_symlinks.sh "$BACKUP_DIR"
 
     success "--- Core Setup Complete ---"
 }
@@ -82,15 +63,15 @@ main_menu() {
     echo "1) Base Development Tools (recommended)"
     echo "2) Python Environment"
     echo "3) Node.js Environment"
-    echo "4) Neovim (modern text editor)"
-    echo "5) Visual Enhancements (eza, bat, themes)"
-    echo "6) YouTube-DL (for sharing links)"
-    echo "7) Additional CLI Tools (crush, gemini-cli)"
+    echo "4) Visual Enhancements (Starship, Zinit, etc.)"
+    echo "5) YouTube-DL (for sharing links)"
+    echo "6) Additional CLI Tools (crush, gemini-cli)"
     echo "----------------------------------------"
+    echo "a) All"
     echo "s) Start installation"
     echo "q) Quit"
     echo ""
-    read -p "Enter your choice(s) (e.g., 125s): " choices
+
 }
 
 # --- Main script logic ---
@@ -105,6 +86,7 @@ main() {
 
     while true; do
         main_menu
+        read -p "Enter your choice(s) (e.g., 14s, a for all): " choices
 
         if [[ "$choices" == *"q"* ]]; then
             info "Exiting setup. No changes have been made."
@@ -119,6 +101,11 @@ main() {
         sleep 2
     done
 
+    # If 'a' is selected, run all installers
+    if [[ "$choices" == *"a"* ]]; then
+        choices="123456"
+    fi
+
     if [[ "$choices" == *"1"* ]]; then
         ./scripts/install_base_tools.sh
     fi
@@ -129,15 +116,12 @@ main() {
         ./scripts/install_nodejs.sh
     fi
     if [[ "$choices" == *"4"* ]]; then
-        ./scripts/install_neovim.sh
-    fi
-    if [[ "$choices" == *"5"* ]]; then
         ./scripts/install_visuals.sh
     fi
-    if [[ "$choices" == *"6"* ]]; then
+    if [[ "$choices" == *"5"* ]]; then
         ./scripts/install_youtube_dl.sh
     fi
-    if [[ "$choices" == *"7"* ]]; then
+    if [[ "$choices" == *"6"* ]]; then
         ./scripts/install_cli_tools.sh
     fi
 

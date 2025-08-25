@@ -18,6 +18,7 @@ pkg install -y \
     clang \
     openssh \
     micro \
+    nano \
     fzf \
     zoxide \
     rust \

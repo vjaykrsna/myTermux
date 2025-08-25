@@ -59,14 +59,18 @@ install_fonts() {
     info "Fonts installed successfully."
 }
 
-# --- Function to install Zsh themes ---
-install_zsh_themes() {
-    info "Installing custom Zsh themes..."
-    if [ -d "$HOME/.oh-my-zsh/custom/themes" ]; then
-        cp -f ~/.dotfiles/zsh_themes/* ~/.oh-my-zsh/custom/themes/
-        info "Custom Zsh themes installed."
+
+# --- Function to install Zinit ---
+install_zinit() {
+    info "Installing Zinit (Zsh plugin manager)..."
+    ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+    if [[ ! -d $ZINIT_HOME ]]; then
+        info "Cloning Zinit repository..."
+        mkdir -p "$(dirname $ZINIT_HOME)"
+        git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+        success "Zinit installed successfully."
     else
-        info "Oh My Zsh not found. Skipping Zsh theme installation."
+        info "Zinit is already installed."
     fi
 }
 
@@ -99,8 +103,8 @@ prompt_install_colortoys() {
 }
 
 # --- Main installation logic for visuals ---
+install_zinit
 install_fonts
-install_zsh_themes
 install_neofetch_config
 install_rxfetch
 prompt_install_colortoys
@@ -112,7 +116,6 @@ info "  - eza: A modern replacement for ls. Your 'ls', 'la', 'll' aliases have b
 info "  - bat: A replacement for cat with syntax highlighting. Your 'cat' alias has been updated."
 info "  - chcolor: Change the terminal colorscheme."
 info "  - chfont: Change the terminal font."
-info "  - chzsh: Change the Zsh theme."
 info "  - rxfetch: A custom system information fetcher."
 info "If you installed the color toys, you can use aliases like 'pipesx', 'pacman', etc."
 info "Restart Termux for all changes to take effect."

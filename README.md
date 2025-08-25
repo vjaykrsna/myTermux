@@ -9,7 +9,8 @@ A clean, modular, and beautiful setup for your Termux environment. This configur
 - **Modular:** The installation is interactive. You choose what you want to install.
 - **Minimal:** The base setup is lightweight. No unnecessary packages are installed by default.
 - **Customizable:** The configuration is split into logical files, making it easy to add your own aliases, functions, and environment variables.
-- **Beautiful:** Optional theming with Oh My Zsh and Powerlevel10k to make your terminal look great.
+- **Beautiful:** Comes with the Starship prompt, a minimal and fast cross-shell prompt.
+- **Modern:** Uses Zinit as a plugin manager for Zsh, which is fast and easy to use.
 
 ## Installation
 
@@ -46,14 +47,14 @@ To customize your setup, **edit the files within this cloned repository**, not t
 -   **Functions:** To add a new function, open `.config/zsh/functions.zsh` in this repository and define your function.
 -   **Environment Variables:** To add a new environment variable, open `.config/zsh/env.zsh` in this repository and add a new line.
 
-## Theming
+## Theming & Prompt
 
-During the installation, you can choose to install theming options.
+This setup uses Zinit as a Zsh plugin manager and Starship for the prompt.
 
--   **Oh My Zsh:** A popular framework for managing Zsh configuration. A simple, clean theme is used by default.
--   **Powerlevel10k:** A powerful and highly customizable Zsh theme. If you choose to install it, you will need to:
-    1.  Restart Termux after the installation is complete.
-    2.  Run the command `p10k configure` to go through the Powerlevel10k configuration wizard. This will allow you to customize your prompt to your liking.
+-   **Zinit:** A fast and flexible plugin manager. Plugins are managed in the `.zshrc` file.
+-   **Starship:** A minimal, blazing-fast, and infinitely customizable prompt for any shell! The configuration for Starship can be found in `~/.config/starship.toml` (this file is not included in this repository).
+
+No special configuration is needed after installation. Restart Termux and you are good to go.
 
 ## Contributing
 

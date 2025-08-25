@@ -1,0 +1,102 @@
+#!/data/data/com.termux/files/usr/bin/bash
+
+# This script will install visual enhancements.
+# It contains logic for Termux and gracefully skips it on other systems.
+
+# --- Colors for output ---
+C_RESET='\033[0m'
+C_BLUE='\033[0;34m'
+C_GREEN='\033[0;32m'
+C_YELLOW='\033[0;33m'
+
+info() { printf "${C_BLUE}%s${C_RESET}\n" "$1"; }
+success() { printf "${C_GREEN}%s${C_RESET}\n" "$1"; }
+warn() { printf "${C_YELLOW}%s${C_RESET}\n" "$1"; }
+
+# --- Termux-specific package installation ---
+install_termux_packages() {
+    if ! command -v pkg &> /dev/null; then
+        warn "Not in Termux (pkg command not found). Skipping package installation."
+        return
+    fi
+    info "--- Installing Visual Enhancement Packages (Termux) ---"
+    pkg install -y eza bat neofetch unzip
+}
+
+# --- Function to install fonts ---
+install_fonts() {
+    if ! command -v aria2c &> /dev/null; then
+        warn "aria2c command not found. Skipping font installation."
+        return
+    fi
+    if ! command -v unzip &> /dev/null; then
+        warn "unzip command not found. Skipping font installation."
+        return
+    fi
+
+    info "--- Installing Fonts ---"
+    FONT_DIR="$HOME/.local/share/fonts"
+    mkdir -p "$FONT_DIR"
+    TMP_DIR=$(mktemp -d)
+
+    # Fira Code
+    info "Downloading Fira Code Nerd Font..."
+    aria2c -q -d "$TMP_DIR" -o "FiraCode.zip" "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/FiraCode.zip"
+    unzip -o "$TMP_DIR/FiraCode.zip" -d "$FONT_DIR" 'FiraCodeNerdFont-Regular.ttf'
+
+    # JetBrains Mono
+    info "Downloading JetBrains Mono Nerd Font..."
+    aria2c -q -d "$TMP_DIR" -o "JetBrainsMono.zip" "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip"
+    unzip -o "$TMP_DIR/JetBrainsMono.zip" -d "$FONT_DIR" 'JetBrainsMonoNerdFont-Regular.ttf'
+
+    # Hack
+    info "Downloading Hack Nerd Font..."
+    aria2c -q -d "$TMP_DIR" -o "Hack.zip" "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Hack.zip"
+    unzip -o "$TMP_DIR/Hack.zip" -d "$FONT_DIR" 'HackNerdFont-Regular.ttf'
+
+    # Meslo
+    info "Downloading MesloLGS NF..."
+    aria2c -q -d "$FONT_DIR" -o "MesloLGS-NF-Regular.ttf" "https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf"
+
+    rm -rf "$TMP_DIR"
+    info "Fonts installed to $FONT_DIR. You may need to run 'fc-cache -fv'."
+}
+
+# --- Function to install Zinit ---
+install_zinit() {
+    if ! command -v git &> /dev/null; then
+        warn "git command not found. Skipping Zinit installation."
+        return
+    fi
+    info "--- Installing Zinit (Zsh plugin manager) ---"
+    ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+    if [[ ! -d $ZINIT_HOME ]]; then
+        info "Cloning Zinit repository..."
+        mkdir -p "$(dirname "$ZINIT_HOME")"
+        git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+        success "Zinit installed successfully."
+    else
+        info "Zinit is already installed."
+    fi
+}
+
+# --- Main installation logic ---
+info "--- Starting Visual Enhancements Installation ---"
+install_termux_packages
+install_zinit
+install_fonts
+
+# Note: The interactive prompt for color toys has been removed to ensure
+# this script can be run non-interactively by chezmoi.
+# The color toys are now installed unconditionally by their own script.
+info "Executing color toys installation script..."
+. "{{ .chezmoi.sourceDir }}/.chezmoiscripts/run_onchange_install_colortoys.sh"
+
+# Note: The manual installation of neofetch config and rxfetch has been removed.
+# These files should be managed by chezmoi directly, not copied by a script.
+# For example, a file named 'dot_config/neofetch/config.conf' in your source
+# directory will be automatically symlinked by 'chezmoi apply'.
+
+echo ""
+info "--- Visual Enhancements Installation Complete ---"
+info "Please restart your terminal for all changes to take effect."

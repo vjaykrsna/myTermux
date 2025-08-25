@@ -1,0 +1,39 @@
+#!/bin/sh
+
+# This script creates symlinks for the executable files in the bin directory.
+
+# --- Colors for output ---
+C_RESET='\033[0m'
+C_GREEN='\033[0;32m'
+C_BLUE='\033[0;34m'
+
+info() {
+    printf "${C_BLUE}%s${C_RESET}\n" "$1"
+}
+
+success() {
+    printf "${C_GREEN}%s${C_RESET}\n" "$1"
+}
+
+# --- Main logic ---
+
+DOTFILES_DIR_BIN="{{ .chezmoi.sourceDir }}/bin"
+LOCAL_BIN_DIR="$HOME/.local/bin"
+
+mkdir -p "$LOCAL_BIN_DIR"
+
+info "--- Creating symlinks for binaries ---"
+
+for file in "$DOTFILES_DIR_BIN"/*; do
+    filename=$(basename "$file")
+    dest="$LOCAL_BIN_DIR/$filename"
+
+    if [ -e "$dest" ] || [ -L "$dest" ]; then
+        info "Symlink for $filename already exists."
+    else
+        info "Creating symlink for $filename -> $dest"
+        ln -s "$file" "$dest"
+    fi
+done
+
+success "--- Binary symlinks created successfully! ---"

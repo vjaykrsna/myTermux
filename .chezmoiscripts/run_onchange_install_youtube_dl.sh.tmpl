@@ -1,0 +1,49 @@
+#!/data/data/com.termux/files/usr/bin/bash
+
+# This script installs the YouTube-DL feature for Termux.
+# It is safe to run on other systems, where it will do nothing.
+
+# --- Colors for output ---
+C_RESET='\033[0m'
+C_BLUE='\033[0;34m'
+C_GREEN='\033[0;32m'
+C_YELLOW='\033[0;33m'
+
+info() { printf "${C_BLUE}%s${C_RESET}\n" "$1"; }
+success() { printf "${C_GREEN}%s${C_RESET}\n" "$1"; }
+warn() { printf "${C_YELLOW}%s${C_RESET}\n" "$1"; }
+
+# --- Main logic ---
+
+# This entire feature is for Termux, so we check for its environment.
+# A simple check is for the .termux directory in HOME.
+if [ ! -d "$HOME/.termux" ]; then
+    warn "Not in a Termux environment. Skipping YouTube-DL feature installation."
+    exit 0
+fi
+
+info "--- Installing YouTube-DL Feature (Termux) ---"
+
+# --- Install dependencies ---
+info "Installing dependencies: python, ffmpeg..."
+pkg install -y python ffmpeg
+
+# --- Install yt-dlp ---
+info "Installing yt-dlp..."
+pip install yt-dlp --break-system-packages
+
+# --- Create directories ---
+info "Creating Termux-specific directories..."
+mkdir -p "$HOME/storage/shared/Youtube-DL"
+mkdir -p "$HOME/.config/yt-dlp"
+mkdir -p "$HOME/.termux/bin"
+
+# Note: The manual copy of config files and scripts has been removed.
+# These files should be managed by chezmoi directly. For example, a file named
+# 'dot_config/yt-dlp/config' in your source directory will be automatically
+# symlinked by 'chezmoi apply'. The same applies to the termux-url-opener script,
+# which could be handled by creating a symlink in 'dot_termux/bin'.
+
+success "--- YouTube-DL Feature Installation Complete ---"
+info "You can now share YouTube links to Termux to download them."
+info "Ensure your config files (e.g. yt-dlp/config, termux-url-opener) are managed by chezmoi."

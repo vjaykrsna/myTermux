@@ -5,14 +5,15 @@ LIBRARYS=(
 )
 
 # Adjusted for the new repository structure
-LIBRARY_PATH="${HOME}/.dotfiles/scripts/theme_switchers/library"
+SCRIPT_PATH=$(readlink -f "$0")
+SCRIPT_DIR=$(dirname "$SCRIPT_PATH")
+DOTFILES_DIR=$(dirname "$SCRIPT_DIR")
+LIBRARY_PATH="$DOTFILES_DIR/bin/library"
+FONTS_DIR="$DOTFILES_DIR/fonts"
 
 for LIBRARY in ${LIBRARYS[@]}; do
   source ${LIBRARY_PATH}/${LIBRARY}.sh
 done
-
-# Adjusted to keep fonts inside the repository
-FONTS_DIR="${HOME}/.dotfiles/fonts"
 INDEX_LOOP=0
 
 # Adjusted to be consistent with the user's config structure

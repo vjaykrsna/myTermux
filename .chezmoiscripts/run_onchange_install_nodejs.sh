@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/data/data/com.termux/files/usr/bin/bash
 
 # This script installs Node.js (LTS).
 # It is designed for Termux, but is safe to run on other systems.

@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+# This script installs a set of base development tools.
+# It is designed for Termux, but is safe to run on other systems.
+
+# --- Colors for output ---
+C_RESET='\033[0m'
+C_BLUE='\033[0;34m'
+C_YELLOW='\033[0;33m'
+
+info() {
+    printf "${C_BLUE}%s${C_RESET}\n" "$1"
+}
+
+warn() {
+    printf "${C_YELLOW}%s${C_RESET}\n" "$1"
+}
+
+# --- Main logic ---
+
+# Check if we are in Termux by looking for the 'pkg' command
+if ! command -v pkg &> /dev/null; then
+    warn "This script is designed for Termux. Skipping base tools installation."
+    exit 0
+fi
+
+info "--- Installing Base Development Tools (Termux) ---"
+
+pkg install -y \
+    build-essential \
+    cmake \
+    clang \
+    openssh \
+    micro \
+    nano \
+    fzf \
+    zoxide \
+    rust \
+    golang \
+    starship \
+    termux-api \
+    aria2 \
+    git
+
+info "Installing apt-fast script to ~/.local/bin..."
+mkdir -p "$HOME/.local/bin"
+cp -f "{{ .chezmoi.sourceDir }}/assets/bin/apt-fast" "$HOME/.local/bin/apt-fast"
+chmod +x "$HOME/.local/bin/apt-fast"
+
+info "Configuring make for parallel execution in ~/.make.conf..."
+echo 'MAKEFLAGS = -j$(nproc)' > "$HOME/.make.conf"
+
+info "--- Base Development Tools Installation Complete ---"

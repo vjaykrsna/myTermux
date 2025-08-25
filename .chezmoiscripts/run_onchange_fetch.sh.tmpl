@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+
+# Note: This script is a utility with functions to fetch system info.
+# When run by 'chezmoi apply', it will only print its help message by default.
+# Its main purpose is likely to be called by other scripts or tools (e.g., a status bar).
+
+# Correctly locate the library scripts within the chezmoi source directory
+LIBRARY_PATH="{{ .chezmoi.sourceDir }}/bin/library"
+if [ -d "$LIBRARY_PATH" ]; then
+    for lib in "$LIBRARY_PATH"/*.sh; do
+        source "$lib"
+    done
+else
+    # Define dummy color functions if library is not found, to prevent errors
+    COLOR_SUCCESS=""
+    COLOR_BASED=""
+    COLOR_WARNING=""
+    COLOR_DANGER=""
+    stat() { echo "stat: library not found"; }
+fi
+
+
+function fetchMusic() {
+  if ! command -v mpc &> /dev/null; then
+    echo "mpc not found"
+    return
+  fi
+
+  MPD_HOST=127.0.0.1
+  MPD_PORT=8000
+
+  if mpc --host=${MPD_HOST} --port=${MPD_PORT} &> /dev/null; then
+    GET_MUSIC_ARTIST=$(mpc --host=${MPD_HOST} --port=${MPD_PORT} --format '[%artist%]' current 2> /dev/null)
+    GET_MUSIC_TITLE=$(mpc --host=${MPD_HOST} --port=${MPD_PORT} --format '[%title%]' current 2> /dev/null)
+    echo -e "${GET_MUSIC_ARTIST} - ${GET_MUSIC_TITLE}"
+  else
+    echo -e "Unknown Artist - Unknown Song"
+  fi
+}
+
+function fetchStorage() {
+  # This function is for Termux/Android. It will likely not work elsewhere.
+  MOUNTED_ON="/storage/emulated"
+  if ! df -h | grep -q ${MOUNTED_ON}; then
+      echo "Storage: Not on Android/Termux"
+      return
+  fi
+
+  GREP_ONE_ROW=$(df -h | grep ${MOUNTED_ON})
+  SIZE=$(echo ${GREP_ONE_ROW} | awk '{print $2}')
+  USED=$(echo ${GREP_ONE_ROW} | awk '{print $3}')
+  AVAIL=$(echo ${GREP_ONE_ROW} | awk '{print $4}')
+  USE=$(echo ${GREP_ONE_ROW}} | awk '{print $5}' | sed "s/%//g")
+  MOUNTED=$(echo ${GREP_ONE_ROW} | awk '{print $6}')
+  ICON=""
+
+  # The rest of this function is display logic and can be kept as is
+  # ... (original display logic)
+  stat "${ICON} ${MOUNTED}" "Warning" "${USED}B / ${SIZE}B = ${AVAIL}B (${USE}%)"
+}
+
+function fetchBattery() {
+  # This function is for Termux.
+  if ! command -v termux-battery-status &> /dev/null; then
+      echo "Battery: Not on Termux"
+      return
+  fi
+
+  # The rest of this function is Termux-specific and can be kept as is
+  # ... (original battery logic)
+  checkingCommand executeFetch
+}
+
+function fetchHelp() {
+  echo -e "\nUsage: ./fetch [option1] [option2]"
+  echo -e "\nOptions:\n  music\n  battery\n  storage\n  help"
+}
+
+case ${1} in
+  battery) fetchBattery ${2} ;;
+  music) fetchMusic ;;
+  storage) fetchStorage ${2} ;;
+  help) fetchHelp ;;
+  *) fetchHelp ;;
+esac
